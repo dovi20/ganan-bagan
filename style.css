@@ -1,0 +1,560 @@
+/* --- משתני צבעים (מעודכנים) --- */
+:root {
+    --primary-green: #2E8B57; /* SeaGreen */
+    --secondary-green: #66BB6A; /* מעט בהיר יותר וחי */
+    --light-green: #A5D6A7; /* ירוק בהיר יותר */
+    --white: #FFFFFF;
+    --light-gray: #fdfdfd; /* רקע כמעט לבן */
+    --medium-gray: #eeeeee; /* רקע חלופי עדין */
+    --dark-text: #333333; /* טקסט כהה אך לא שחור */
+    --light-text: #555555; /* טקסט משני */
+    --wood-brown: #A0522D; /* Sienna - לשימוש עתידי אולי */
+    --whatsapp-green: #25D366;
+    --whatsapp-hover: #1DAE50;
+    --hero-title-green: #ffffff; /* שינוי צבע כותרת ללבן לבולטות על רקע חדש */
+    --hero-icon-color: #e0f2f1; /* צבע מעט שונה לאייקון, לבן-ירקרק */
+}
+
+/* --- איפוס וסגנונות בסיס --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Heebo', sans-serif;
+    direction: rtl;
+    line-height: 1.75; /* שיפור קריאות */
+    color: var(--dark-text);
+    background-color: var(--white); /* רקע לבן בסיסי */
+    overflow-x: hidden; /* מניעת גלילה אופקית */
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+.container {
+    max-width: 1140px; /* קונטיינר רחב יותר */
+    margin: auto;
+    overflow: hidden;
+    padding: 0 20px;
+}
+
+h1, h2, h3, h4 {
+    color: var(--primary-green);
+    margin-bottom: 1.2rem; /* ריווח אחיד יותר */
+    font-weight: 700;
+    line-height: 1.3; /* ריווח שורה לכותרות */
+}
+
+p {
+    margin-bottom: 1.2rem;
+    font-weight: 400; /* משקל רגיל לפסקאות */
+    color: var(--light-text); /* צבע טקסט משני */
+}
+
+a {
+    text-decoration: none;
+    color: var(--secondary-green); /* שימוש בירוק משני לקישורים */
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--primary-green); /* שינוי לירוק ראשי ב-hover */
+}
+
+ul {
+    list-style: none;
+}
+
+/* --- אנימציות --- */
+/* אנימצית Fade-in בטעינה */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 0.8s ease-out forwards;
+}
+.delay-1 { animation-delay: 0.2s; }
+.delay-2 { animation-delay: 0.4s; }
+.delay-3 { animation-delay: 0.6s; }
+
+/* אנימצית Fade-in בגלילה */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-on-scroll {
+    opacity: 0; /* מתחיל מוסתר */
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out; /* מעבר חלק */
+    transform: translateY(40px); /* מתחיל מעט נמוך יותר */
+}
+
+.animate-on-scroll.animated { /* קלאס שנוסיף עם JS, או ב-CSS ללא JS */
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* דרך פשוטה להפעיל עם CSS (פחות מדויק מ-JS Intersection Observer) */
+/* כל אזור יונפש כשהוא יגיע לאזור התצוגה */
+/* נדרש שימוש ב-@supports (scroll-timeline) או JS לדיוק טוב יותר */
+/* כרגע נשאיר את הקלאס וניתן להוסיף JS פשוט בהמשך אם רוצים */
+
+/* עדכון סלקטורים במידת הצורך, ה-delay-1 עובר ל-wrapper */
+.hero-title-wrapper.fade-in.delay-1 { animation-delay: 0.2s; } /* האנימציה עכשיו על העטיפה */
+.hero h2.fade-in.delay-2 { animation-delay: 0.4s; }
+.hero .whatsapp-button.fade-in.delay-3 { animation-delay: 0.6s; }
+
+/* --- כפתור וואטסאפ --- */
+.whatsapp-button {
+    display: inline-block;
+    background-color: var(--whatsapp-green);
+    color: var(--white) !important;
+    padding: 12px 28px; /* ריווח פנימי מעודכן */
+    border-radius: 50px; /* כפתור עגול יותר */
+    font-weight: 700; /* משקל בולט */
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* הוספת מעבר לצל */
+    box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3); /* צל בצבע הכפתור */
+    border: none;
+    letter-spacing: 0.5px; /* ריווח אותיות קל */
+}
+
+.whatsapp-button i {
+    margin-left: 8px;
+    vertical-align: middle; /* יישור אנכי של האייקון */
+}
+
+.whatsapp-button:hover {
+    background-color: var(--whatsapp-hover);
+    color: var(--white) !important;
+    transform: translateY(-3px); /* אפקט קפיצה קל */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.whatsapp-button.large {
+    padding: 15px 35px; /* התאמה לגודל large */
+    font-size: 1.15rem;
+}
+
+/* --- כותרת עליונה (Hero) --- */
+.hero {
+    /* הגברת אטימות הגרדיאנט להכהיית הרקע */
+    background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(46, 139, 87, 0.55)), url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/%D7%A2%D7%9C%D7%99%D7%9D_%D7%91%D7%92%D7%A9%D7%9D.jpg/1599px-%D7%A2%D7%9C%D7%99%D7%9D_%D7%91%D7%92%D7%A9%D7%9D.jpg') center center/cover no-repeat;
+    /* שיניתי את 0.35 ל-0.55 ואת 0.45 ל-0.55 */
+    color: var(--white);
+    text-align: center;
+    padding: 7rem 0;
+    min-height: 75vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+    overflow: hidden;
+}
+
+/* אפשרות להוספת דפוס עלים עדין ברקע עם פסאודו אלמנט */
+/*
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('path/to/your/subtle-leaf-pattern.png');
+    opacity: 0.1;
+    z-index: 0;
+}
+.hero .container {
+    position: relative;
+    z-index: 1;
+}
+*/
+
+.hero .container {
+     position: relative; /* לוודא שהתוכן מעל הפסאודו אלמנט אם נשתמש */
+     z-index: 1;
+}
+
+.hero-title-wrapper {
+    display: flex; /* שימוש ב-Flexbox ליישור הכותרת והאייקונים */
+    align-items: center; /* יישור אנכי למרכז */
+    justify-content: center; /* יישור אופקי למרכז */
+    margin-bottom: 1rem; /* ריווח מעודכן */
+    opacity: 0;
+}
+
+.hero h1 {
+    font-size: 4.5rem;
+    font-weight: 700;
+    color: var(--hero-title-green);
+    text-shadow: 2px 3px 7px rgba(0, 0, 0, 0.7); /* חיזוק קל לצל כדי לשמור על קריאות */
+    margin: 0 1.2rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 3px solid var(--hero-icon-color);
+    display: inline-block;
+    line-height: 1.1;
+}
+
+.hero-leaf-icon {
+    font-size: 2rem; /* הגדלת אייקון העלה */
+    color: var(--hero-icon-color);
+    opacity: 0.9; /* פחות שקוף */
+     /* אפשר להוסיף אנימציה קלה לאייקונים אם רוצים */
+     /* transform: translateY(-8px); */ /* הזזה מעט גדולה יותר */
+}
+
+.hero h2 {
+    font-size: 1.7rem;
+    margin-bottom: 3rem;
+    color: var(--white);
+    text-shadow: 1px 1px 7px rgba(0, 0, 0, 0.9); /* חיזוק משמעותי לצל לקריאות מעל תמונה בהירה יותר */
+    font-weight: 400;
+    max-width: 750px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* --- אזורים כללי --- */
+section {
+    padding: 5rem 0; /* ריווח גדול יותר */
+}
+
+section:nth-child(even) {
+    background-color: var(--medium-gray); /* שימוש באפור עדין לרקע חלופי */
+}
+
+section h3 {
+    text-align: center;
+    font-size: 2.5rem; /* כותרות גדולות יותר */
+    margin-bottom: 3.5rem; /* ריווח גדול יותר */
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+section h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 50%;
+    transform: translateX(50%);
+    width: 80px;
+    height: 4px;
+    background-color: var(--secondary-green); /* שימוש בירוק משני */
+    border-radius: 2px; /* פינות מעוגלות לקו */
+}
+
+
+/* --- שירותים --- */
+.services ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* רוחב מינימלי מעט גדול יותר */
+    gap: 2.5rem; /* רווח גדול יותר */
+    text-align: right;
+}
+
+.services li {
+    background: var(--white);
+    padding: 2.5rem 2rem; /* ריווח פנימי משופר */
+    border-radius: 8px; /* פינות פחות עגולות, מראה מודרני */
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06); /* צל עדין ומפוזר */
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    border-bottom: 3px solid transparent; /* הכנה לגבול תחתון ב-hover */
+}
+
+.services li:hover {
+    transform: translateY(-10px); /* תזוזה גדולה יותר */
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1); /* צל מודגש יותר */
+    border-bottom-color: var(--secondary-green); /* הופעת גבול תחתון */
+}
+
+.services li i {
+    color: var(--secondary-green); /* שימוש בירוק משני */
+    margin-left: 12px;
+    font-size: 1.8rem;
+    margin-bottom: 1rem; /* ריווח מתחת לאייקון */
+    display: block; /* הצגת אייקון בשורה נפרדת */
+    text-align: center; /* מרכוז אייקון */
+    width: auto; /* הסרת רוחב קבוע */
+}
+
+.services li {
+    text-align: center; /* מרכוז גם את הטקסט */
+}
+
+/* --- אזור אודות (חדש) --- */
+.about-content {
+    display: flex;
+    align-items: center;
+    gap: 3rem; /* רווח בין הטקסט לתמונה */
+}
+
+.about-text {
+    flex: 1.5; /* לתת יותר מקום לטקסט */
+}
+
+.about-text p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+}
+
+.about-text strong {
+    color: var(--primary-green);
+}
+
+.about-image {
+    flex: 1;
+    text-align: center;
+}
+
+.about-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    transition: transform 0.4s ease;
+}
+.about-image img:hover {
+     transform: scale(1.04);
+}
+
+/* --- גלריה --- */
+.gallery .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 1.5rem;
+}
+
+.gallery img {
+    width: 100%;
+    height: 280px; /* גובה אחיד */
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.4s ease; /* הוספת מעבר פילטר */
+}
+
+.gallery img:hover {
+    transform: scale(1.05); /* הגדלה מעט קטנה יותר */
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+    filter: brightness(1.1); /* הבהרה קלה ב-hover */
+}
+
+.gallery p {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    color: var(--light-text);
+    font-size: 1.1rem;
+}
+
+/* --- מאמרים --- */
+.articles .container {
+     max-width: 1140px; /* חזרה לרוחב מלא */
+}
+
+.articles-grid { /* שימוש בגריד */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.articles article {
+    background: var(--white);
+    padding: 2rem 1.8rem; /* ריווח מעודכן */
+    margin-bottom: 0; /* אין צורך בריווח תחתון בתוך הגריד */
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+    border: 1px solid #eee; /* גבול עדין */
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    display: flex; /* Flexbox לסידור פנימי */
+    flex-direction: column;
+}
+
+.articles article:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+}
+
+.articles article h4 {
+    margin-bottom: 1rem;
+    font-size: 1.35rem; /* כותרת גדולה יותר */
+    color: var(--primary-green);
+    display: flex; /* Flex ליישור אייקון וכותרת */
+    align-items: center;
+    gap: 0.7rem; /* רווח בין אייקון לכותרת */
+}
+
+.articles article h4 i {
+    color: var(--secondary-green); /* צבע לאייקון */
+    font-size: 1.2rem;
+}
+
+.articles article p {
+    color: var(--light-text);
+    flex-grow: 1; /* לגרום לפסקה למלא את השטח הפנוי */
+    margin-bottom: 1rem;
+}
+
+.articles ol {
+    margin-right: 0; /* איפוס הזחה */
+    padding-right: 1.5rem; /* הזחה עם פדינג */
+    list-style-type: none; /* הסרת מספור ברירת מחדל */
+    counter-reset: article-list-counter; /* איפוס מונה */
+    margin-bottom: 1rem;
+}
+
+.articles ol li {
+    margin-bottom: 0.8rem;
+    position: relative;
+    padding-right: 1.2rem; /* מקום ל'מספור' */
+    color: var(--light-text);
+    font-size: 0.95rem;
+}
+
+.articles ol li::before {
+    content: counter(article-list-counter); /* הצגת המונה */
+    counter-increment: article-list-counter; /* קידום המונה */
+    position: absolute;
+    right: -5px;
+    top: 2px;
+    background-color: var(--light-green); /* רקע למספר */
+    color: var(--primary-green); /* צבע המספר */
+    font-weight: bold;
+    width: 1.4em;
+    height: 1.4em;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8em;
+    line-height: 1; /* התאמת גובה שורה */
+}
+
+.articles ol li strong { /* הדגשת האלמנט הראשון ברשימה */
+    color: var(--dark-text);
+    font-weight: 700;
+}
+
+
+/* --- יצירת קשר --- */
+.contact {
+    text-align: center;
+    background-color: var(--primary-green); /* רקע ירוק לאזור יצירת הקשר */
+    color: var(--white);
+    padding: 6rem 0;
+    clip-path: polygon(0 12%, 100% 0, 100% 100%, 0 100%);
+    margin-top: 3rem; /* ריווח מעל */
+}
+
+.contact h3 {
+    color: var(--white); /* כותרת לבנה */
+    font-size: 2.8rem;
+}
+
+.contact h3::after {
+    background-color: var(--light-green); /* קו בצבע ירוק בהיר */
+}
+
+
+.contact p {
+    margin-bottom: 2.5rem;
+    font-size: 1.2rem;
+    color: var(--light-gray); /* טקסט בהיר יותר */
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 300;
+}
+
+.contact .whatsapp-button {
+    background-color: var(--white); /* כפתור לבן */
+    color: var(--primary-green) !important; /* טקסט ירוק */
+    font-weight: bold;
+}
+
+.contact .whatsapp-button:hover {
+    background-color: var(--light-gray); /* רקע אפרפר בהיר ב-hover */
+     color: var(--primary-green) !important;
+     transform: translateY(-4px) scale(1.05); /* אפקט hover משופר */
+}
+
+
+/* --- פוטר --- */
+.footer {
+    background-color: var(--dark-text);
+    color: var(--light-gray);
+    text-align: center;
+    padding: 2.5rem 0; /* ריווח גדול יותר */
+    margin-top: 0; /* הסרת ריווח עליון כי הוא קיים ב-contact */
+}
+
+.footer p {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+/* --- רספונסיביות --- */
+@media (max-width: 992px) {
+    .container { max-width: 960px; }
+    .hero h1 { font-size: 3.8rem; margin: 0 1rem; }
+    .hero h2 { font-size: 1.5rem; }
+    section h3 { font-size: 2.2rem; }
+    .about-content { flex-direction: column; text-align: center; } /* עמודה אחת בטאבלט */
+    .about-image { margin-top: 2rem; }
+    .hero-leaf-icon { font-size: 1.7rem; }
+    .articles-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+}
+
+
+@media (max-width: 768px) {
+    .container { max-width: 720px; padding: 0 15px;}
+    .hero { min-height: 70vh; padding: 5rem 0; clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%);} /* התאמת גובה וחיתוך */
+    .hero h1 { font-size: 3rem; margin: 0 0.6rem; }
+    .hero h2 { font-size: 1.3rem; padding: 0 15px;}
+    section { padding: 3.5rem 0; }
+    section h3 { font-size: 2rem; margin-bottom: 2.5rem; }
+    .services ul, .gallery .gallery-grid, .articles-grid {
+        grid-template-columns: 1fr;
+        gap: 1.8rem;
+    }
+     .services li { padding: 2rem 1.5rem; }
+     .gallery img { height: 250px; }
+     .contact { clip-path: none; padding: 4rem 0;}
+     .contact h3 { font-size: 2.2rem; }
+     .contact p { font-size: 1.1rem; }
+    .hero-title-wrapper {
+        margin-bottom: 1rem; /* התאמת ריווח */
+    }
+    .hero-leaf-icon { font-size: 1.5rem; }
+}
+
+@media (max-width: 480px) {
+    body { line-height: 1.7; }
+    .container { padding: 0 10px; }
+    .hero { min-height: 65vh; padding: 4rem 0;}
+    .hero h1 { font-size: 2.6rem; margin: 0 0.5rem; border-bottom-width: 2px;}
+    .hero h2 { font-size: 1.15rem; line-height: 1.6;}
+    .whatsapp-button { padding: 10px 22px; font-size: 0.9rem; }
+    .whatsapp-button.large { padding: 13px 28px; font-size: 1rem; }
+    section { padding: 3rem 0; }
+    section h3 { font-size: 1.8rem; }
+    .services li { padding: 1.8rem 1.2rem; }
+    .gallery img { height: 220px; }
+    .articles article { padding: 1.5rem; }
+     .articles article h4 { font-size: 1.2rem; }
+     .articles ol li { font-size: 0.9rem;}
+    .contact { padding: 3.5rem 0;}
+    .contact h3 { font-size: 2rem; }
+    .contact p { font-size: 1rem; }
+    .footer { padding: 2rem 0;}
+    .hero-leaf-icon { font-size: 1.2rem; }
+} 
